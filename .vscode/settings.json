@@ -4,5 +4,7 @@
         "titleBar.activeBackground": "#890402",
         "titleBar.activeForeground": "#FFFBFB"
     },
-    "git.ignoreLimitWarning": true
+    "git.ignoreLimitWarning": true,
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
 }
