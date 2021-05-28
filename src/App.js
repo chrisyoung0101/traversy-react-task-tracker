@@ -2,6 +2,8 @@ import { useState } from 'react';
 import Header from './components/Header';
 import Tasks from './components/Tasks';
 
+//State gets passed down where actions (calling a function like with deleteTask get passed up)
+
 // Main root app component
 function App() {
   const [tasks, setTasks] = useState([
@@ -43,10 +45,21 @@ function App() {
     },
   ]);
 
+  // Delete Task
+  //Think of it getting passed through props as onDelete
+  //From App.js > to Tasks.js > to Task.js
+  //Since we just want to delete the individual task item, we invoke the delete function from Task.js
+  const deleteTask = (id) => {
+    //For each task, filter where if the task id is NOT equal to the id being passed in (aka the id you clicked on)
+    //We are using the filter array method to leave out the id we want to delete and
+    //only show what we want to keep.
+    setTasks(tasks.filter((task) => task.id !== id));
+  };
+
   return (
     <div className="container">
       <Header />
-      <Tasks tasks={tasks} />
+      <Tasks tasks={tasks} onDelete={deleteTask} />
     </div>
   );
 }
