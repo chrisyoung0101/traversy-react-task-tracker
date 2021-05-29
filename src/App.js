@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import Header from './components/Header';
 import Tasks from './components/Tasks';
+import AddTask from './components/AddTask';
 
 //State gets passed down where actions (calling a function like with deleteTask get passed up)
 
@@ -56,10 +57,27 @@ function App() {
     setTasks(tasks.filter((task) => task.id !== id));
   };
 
+  //toggle reminder
+  //if task.id on the current iteration is equal to the id that is passed in then we have/show object else we just show the task.  This object is where we want to spread in all the task's properties (I guess this is making them available?) & then change the current value of task.reminder to the opposite of it's value being from true to false or false to true. View this in React devtools to watch the value switch.
+  const toggleReminder = (id) => {
+    setTasks(
+      tasks.map((task) =>
+        task.id === id ? { ...task, reminder: !task.reminder } : task
+      )
+    );
+  };
+
   return (
     <div className="container">
       <Header />
-      <Tasks tasks={tasks} onDelete={deleteTask} />
+      <AddTask />
+
+      {/* if tasks exist, show them otherwise show message */}
+      {tasks.length > 0 ? (
+        <Tasks tasks={tasks} onDelete={deleteTask} onToggle={toggleReminder} />
+      ) : (
+        'No tasks to show'
+      )}
     </div>
   );
 }
