@@ -46,6 +46,18 @@ function App() {
     },
   ]);
 
+  // Add the new Task
+  const addTask = (task) => {
+    //add an id (random number) since we are not dealing with a backend that adds an id on it's own
+    const id = Math.floor(Math.random() * 10000) + 1;
+    //Confusion alert : take the task being the task we are creating aka the new task and adding the id to that new task.
+    const newTask = { id, ...task };
+    //set state with the new task
+    setTasks([...tasks, newTask]);
+
+    console.log(id);
+  };
+
   // Delete Task
   //Think of it getting passed through props as onDelete
   //From App.js > to Tasks.js > to Task.js
@@ -70,7 +82,7 @@ function App() {
   return (
     <div className="container">
       <Header />
-      <AddTask />
+      <AddTask onAdd={addTask} />
 
       {/* if tasks exist, show them otherwise show message */}
       {tasks.length > 0 ? (
