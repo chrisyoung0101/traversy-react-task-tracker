@@ -7,6 +7,10 @@ import AddTask from './components/AddTask';
 
 // Main root app component
 function App() {
+  //state to hide / show the input forms with the green add button.  We will toggle state using a boolean value
+  const [showAddTask, setShowAddTask] = useState(false);
+
+  //Default task state
   const [tasks, setTasks] = useState([
     {
       id: 1,
@@ -81,8 +85,11 @@ function App() {
 
   return (
     <div className="container">
-      <Header />
-      <AddTask onAdd={addTask} />
+      {/* invoking onAdd will set the value of showAddTask to the opposite of whatever the current value is - toggling the form */}
+      <Header onAdd={() => setShowAddTask(!showAddTask)} />
+      {/* if showAddTask is true then show the Add task component green button*/}
+      {/* this expression is like a ternary without using an else */}
+      {showAddTask && <AddTask onAdd={addTask} />}
 
       {/* if tasks exist, show them otherwise show message */}
       {tasks.length > 0 ? (
