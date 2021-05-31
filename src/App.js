@@ -86,7 +86,11 @@ function App() {
   return (
     <div className="container">
       {/* invoking onAdd will set the value of showAddTask to the opposite of whatever the current value is - toggling the form */}
-      <Header onAdd={() => setShowAddTask(!showAddTask)} />
+      {/* second use of showAddTask :  */}
+      <Header
+        onAdd={() => setShowAddTask(!showAddTask)}
+        showAdd={showAddTask}
+      />
       {/* if showAddTask is true then show the Add task component green button*/}
       {/* this expression is like a ternary without using an else */}
       {showAddTask && <AddTask onAdd={addTask} />}
