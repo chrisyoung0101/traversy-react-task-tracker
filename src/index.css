@@ -2,8 +2,11 @@
 
 /* reset */
 * {
+  /* padding and border are included in the width and height */
   box-sizing: border-box;
+  /* space around elements, outside of any defined borders */
   margin: 0;
+  /* create space around an element's content, inside of any defined borders. */
   padding: 0;
 }
 
@@ -12,8 +15,13 @@ body {
 }
 
 .container {
+  /* set the maximum width of an element */
   max-width: 500px;
   margin: 30px auto;
+  /* overflow property specifies whether to clip the content or to add scrollbars when the content of an element is too big to fit in the specified area. */
+  /* auto = overflow is clipped, and a scrollbar is added to see the rest of the content. 
+  auto - Similar to scroll, but it adds scrollbars only when necessary
+ */
   overflow: auto;
   min-height: 300px;
   border: 1px solid steelblue;
@@ -24,7 +32,9 @@ body {
 /* flexbox */
 .header {
   display: flex;
+  /* Horizontally aligns the flex items when the items do not use all available space on the main-axis */
   justify-content: space-between;
+  /* Vertically aligns the flex items when the items do not use all available space on the cross-axis */
   align-items: center;
   margin-bottom: 20px;
 }
