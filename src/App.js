@@ -11,50 +11,13 @@ function App() {
   const [showAddTask, setShowAddTask] = useState(false);
 
   //Default task state
-  const [tasks, setTasks] = useState([
-    {
-      id: 1,
-      text: 'Dog Walk',
-      day: 'Feb 5th at 2pm',
-      reminder: true,
-    },
-    {
-      id: 2,
-      text: 'Pizza',
-      day: 'Jan 5th at 12pm',
-      reminder: false,
-    },
-    {
-      id: 3,
-      text: 'Tape Gun',
-      day: 'Oct 10th at 6pm',
-      reminder: true,
-    },
-    {
-      id: 4,
-      text: 'Book Return',
-      day: 'June 16th at 4pm',
-      reminder: false,
-    },
-    {
-      id: 5,
-      text: 'Rainbow',
-      day: 'Aug 11th at 10am',
-      reminder: true,
-    },
-    {
-      id: 6,
-      text: 'Tennis',
-      day: 'Mar 7th at 2pm',
-      reminder: true,
-    },
-  ]);
+  const [tasks, setTasks] = useState([]);
 
-  // Add the new Task
+  // Add the new Task to Global State
   const addTask = (task) => {
     //add an id (random number) since we are not dealing with a backend that adds an id on it's own
     const id = Math.floor(Math.random() * 10000) + 1;
-    //Confusion alert : take the task being the task we are creating aka the new task and adding the id to that new task.
+    //Confusion alert : take the task being the task we are creating aka the new task we submitted through the form and adding the id to that new task.
     const newTask = { id, ...task };
     //set state with the new task
     setTasks([...tasks, newTask]);
