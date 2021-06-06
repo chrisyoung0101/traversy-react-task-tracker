@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Header from './components/Header';
 import Tasks from './components/Tasks';
 import AddTask from './components/AddTask';
@@ -13,23 +13,68 @@ function App() {
   //Default task state
   const [tasks, setTasks] = useState([]);
 
-  // Add the new Task to Global State
-  const addTask = (task) => {
-    //add an id (random number) since we are not dealing with a backend that adds an id on it's own
-    const id = Math.floor(Math.random() * 10000) + 1;
-    //Confusion alert : take the task being the task we are creating aka the new task we submitted through the form and adding the id to that new task.
-    const newTask = { id, ...task };
-    //set state with the new task
-    setTasks([...tasks, newTask]);
+  useEffect(() => {
+    // async because we are calling fetchTasks() which is an asynchronous function
+    // which returns a promise
+    const getTasks = async () => {
+      const tasksFromServer = await fetchTasks();
+      //add the fetched tasks to our state :
+      setTasks(tasksFromServer);
+    };
 
-    console.log(id);
+    //call getTasks
+    getTasks();
+    // dependecy array : when the value that you have in [] changes, run useEffect()
+    // we have nothing to add for this
+  }, []);
+
+  //Fetch Tasks
+  //using the fetch API with async / await
+  const fetchTasks = async () => {
+    //fetch returns this as a promise. here we are awaiting this promise.
+    const res = await fetch('http://localhost:5000/tasks');
+    //await and give us back the json data
+    const data = await res.json();
+
+    return data;
   };
 
-  // Delete Task
+  // Add the new Task to Global State
+  const addTask = async (task) => {
+    const res = await fetch('http://localhost:5000/tasks', {
+      method: 'POST',
+      headers: {
+        'Content-type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Credentials': 'true',
+        'Access-Control-Allow-Methods': 'GET,HEAD,PUT,PATCH,POST,DELETE',
+      },
+      body: JSON.stringify(task),
+    });
+
+    const data = await res.json();
+
+    setTasks([...tasks, data]);
+
+    // // Below is from before we had a server to generate an id.
+    // //add an id (random number) since we are not dealing with a backend that adds an id on it's own
+    // const id = Math.floor(Math.random() * 10000) + 1;
+    // //Confusion alert : take the task being the task we are creating aka the new task we submitted through the form and adding the id to that new task.
+    // const newTask = { id, ...task };
+    // //set state with the new task
+    // setTasks([...tasks, newTask]);
+
+    // console.log(id);
+  };
+
+  // Delete Task directly from the server
   //Think of it getting passed through props as onDelete
   //From App.js > to Tasks.js > to Task.js
   //Since we just want to delete the individual task item, we invoke the delete function from Task.js
-  const deleteTask = (id) => {
+  const deleteTask = async (id) => {
+    await fetch(`http://localhost:5000/tasks/${id}`, {
+      method: 'DELETE',
+    });
     //For each task, filter where if the task id is NOT equal to the id being passed in (aka the id you clicked on)
     //We are using the filter array method to leave out the id we want to delete and
     //only show what we want to keep.

@@ -1,3 +1,5 @@
+// use this to replenish your tasks when testing.
+
 {
   "tasks": [
     {
@@ -25,22 +27,10 @@
       "reminder": false
     },
     {
-      "text": "Plant Carrots",
-      "day": "Sunday",
-      "reminder": true,
-      "id": 5
-    },
-    {
-      "text": "Make insecticidal soap",
-      "day": "Sunday",
-      "reminder": true,
-      "id": 6
-    },
-    {
-      "text": "Buy paper plates",
-      "day": "Sunday",
-      "reminder": true,
-      "id": 7
+      "id": 5,
+      "text": "Rainbow",
+      "day": "Aug 11th at 10am",
+      "reminder": true
     }
   ]
 }
