@@ -1,7 +1,10 @@
 import PropTypes from 'prop-types';
+import { useLocation } from 'react-router-dom';
 import Button from './Button';
 
 const Header = ({ title, onAdd, showAdd }) => {
+  const location = useLocation();
+
   return (
     <header className="header">
       {/* <h1 style={{ color: 'red', backgroundColor: 'black' }}>{title}</h1> */}
@@ -13,11 +16,14 @@ const Header = ({ title, onAdd, showAdd }) => {
       value of showAdd.  showAdd prop = showAddTask boolean value from App.js */}
       {/* when showAdd is true (the form is being shown) we want to show Close else we show Add when the form is not showing */}
       {/* ...and we then do the same thing for color. */}
-      <Button
-        color={showAdd ? 'red' : 'green'}
-        text={showAdd ? 'Close' : 'Add'}
-        onClick={onAdd}
-      />
+      {/* Conditional : If location.pathname is equal to "/" aka index aka homepage then show the button */}
+      {location.pathname === '/' && (
+        <Button
+          color={showAdd ? 'red' : 'green'}
+          text={showAdd ? 'Close' : 'Add'}
+          onClick={onAdd}
+        />
+      )}
     </header>
   );
 };

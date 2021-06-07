@@ -1,7 +1,10 @@
 import { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 import Header from './components/Header';
 import Tasks from './components/Tasks';
 import AddTask from './components/AddTask';
+import Footer from './components/Footer';
+import About from './components/About';
 
 //State gets passed down where actions (calling a function like with deleteTask get passed up)
 
@@ -39,21 +42,33 @@ function App() {
     return data;
   };
 
+  // fetch one single task
+  const fetchTask = async (id) => {
+    //fetch returns this as a promise. here we are awaiting this promise.
+    const res = await fetch(`http://localhost:5000/tasks/${id}`);
+    //await and give us back the json data
+    const data = await res.json();
+
+    return data;
+  };
+
   // Add the new Task to Global State
   const addTask = async (task) => {
     const res = await fetch('http://localhost:5000/tasks', {
       method: 'POST',
+      // when sending data we need to specify content type to our headers
       headers: {
         'Content-type': 'application/json',
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Credentials': 'true',
-        'Access-Control-Allow-Methods': 'GET,HEAD,PUT,PATCH,POST,DELETE',
       },
+      // body is the data that we are sending
+      // JSON.stringify() converts the JS object to a JSON string
       body: JSON.stringify(task),
     });
 
+    //data that is returned is just hte new task that is added.
     const data = await res.json();
 
+    // take existing tasks and add the new task onto the tasks array
     setTasks([...tasks, data]);
 
     // // Below is from before we had a server to generate an id.
@@ -83,33 +98,63 @@ function App() {
 
   //toggle reminder
   //if task.id on the current iteration is equal to the id that is passed in then we have/show object else we just show the task.  This object is where we want to spread in all the task's properties (I guess this is making them available?) & then change the current value of task.reminder to the opposite of it's value being from true to false or false to true. View this in React devtools to watch the value switch.
-  const toggleReminder = (id) => {
+  const toggleReminder = async (id) => {
+    const taskToToggle = await fetchTask(id);
+    const updTask = { ...taskToToggle, reminder: !taskToToggle.reminder };
+
+    const res = await fetch(`http://localhost:5000/tasks/${id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-type': 'application/json',
+      },
+      body: JSON.stringify(updTask),
+    });
+
+    const data = await res.json();
+
     setTasks(
       tasks.map((task) =>
-        task.id === id ? { ...task, reminder: !task.reminder } : task
+        task.id === id ? { ...task, reminder: data.reminder } : task
       )
     );
   };
 
   return (
-    <div className="container">
-      {/* invoking onAdd will set the value of showAddTask to the opposite of whatever the current value is - toggling the form */}
-      {/* second use of showAddTask :  */}
-      <Header
-        onAdd={() => setShowAddTask(!showAddTask)}
-        showAdd={showAddTask}
-      />
-      {/* if showAddTask is true then show the Add task component green button*/}
-      {/* this expression is like a ternary without using an else */}
-      {showAddTask && <AddTask onAdd={addTask} />}
+    <Router>
+      <div className="container">
+        {/* invoking onAdd will set the value of showAddTask to the opposite of whatever the current value is - toggling the form */}
+        {/* second use of showAddTask :  */}
+        <Header
+          onAdd={() => setShowAddTask(!showAddTask)}
+          showAdd={showAddTask}
+        />
 
-      {/* if tasks exist, show them otherwise show message */}
-      {tasks.length > 0 ? (
-        <Tasks tasks={tasks} onDelete={deleteTask} onToggle={toggleReminder} />
-      ) : (
-        'No tasks to show'
-      )}
-    </div>
+        <Route
+          path="/"
+          exact
+          render={(props) => (
+            <>
+              {/* if showAddTask is true then show the Add task component green button*/}
+              {/* this expression is like a ternary without using an else */}
+              {showAddTask && <AddTask onAdd={addTask} />}
+
+              {/* if tasks exist, show them otherwise show message */}
+              {tasks.length > 0 ? (
+                <Tasks
+                  tasks={tasks}
+                  onDelete={deleteTask}
+                  onToggle={toggleReminder}
+                />
+              ) : (
+                'No tasks to show'
+              )}
+            </>
+          )}
+        />
+        <Route path="/about" component={About} />
+        <Footer />
+      </div>
+    </Router>
   );
 }
 

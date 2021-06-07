@@ -4,7 +4,7 @@
       "id": 1,
       "text": "Dog Walk",
       "day": "Feb 5th at 2pm",
-      "reminder": true
+      "reminder": false
     },
     {
       "id": 2,
@@ -13,34 +13,10 @@
       "reminder": false
     },
     {
-      "id": 3,
-      "text": "Tape Gun",
-      "day": "Oct 10th at 6pm",
-      "reminder": true
-    },
-    {
-      "id": 4,
-      "text": "Book Return",
-      "day": "June 16th at 4pm",
-      "reminder": false
-    },
-    {
-      "text": "Plant Carrots",
-      "day": "Sunday",
-      "reminder": true,
-      "id": 5
-    },
-    {
-      "text": "Make insecticidal soap",
-      "day": "Sunday",
-      "reminder": true,
-      "id": 6
-    },
-    {
-      "text": "Buy paper plates",
-      "day": "Sunday",
-      "reminder": true,
-      "id": 7
+      "text": "Sharpen pencil",
+      "day": "June 18th",
+      "reminder": false,
+      "id": 3
     }
   ]
 }
