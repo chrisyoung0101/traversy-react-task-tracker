@@ -3,7 +3,7 @@ import Task from './Task';
 const Tasks = ({ tasks, onDelete, onToggle }) => {
   return (
     <>
-      {/* using index here as when we used task.id we got the "needs a key" error */}
+      {/* we could also pass in index in the map along with task and then use it as our key */}
       {tasks.map((task) => (
         <Task
           key={task.id}
