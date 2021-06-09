@@ -17,6 +17,12 @@
       "day": "June 18th",
       "reminder": false,
       "id": 3
+    },
+    {
+      "text": "Loops",
+      "day": "6/15/21",
+      "reminder": false,
+      "id": 4
     }
   ]
 }
